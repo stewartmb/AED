@@ -33,6 +33,27 @@ private:
         }
     }
 
+    void auxBFS(int vertice, vector<bool>& visitado, vector<int>& nivelActual) {
+        // Procesar los nodos del nivel actual
+        if (nivelActual.empty()) return;
+
+        vector<int> siguienteNivel; // Almacena los nodos del siguiente nivel
+
+        for (int nodo : nivelActual) {
+            cout << nodo << " "; // Imprimir nodo visitado
+            for (Pair vecino : listaAdyacencia[nodo]) {
+                if (!visitado[vecino.key]) {
+                    visitado[vecino.key] = true;
+                    siguienteNivel.push_back(vecino.key); // Añadir vecino al siguiente nivel
+                }
+            }
+        }
+
+        // Llamada recursiva para procesar el siguiente nivel
+        auxBFS(vertice, visitado, siguienteNivel);
+    }
+
+
 public:
     Grafo(int vertices, bool dirigido = false) {
         numVertices = vertices;
@@ -57,6 +78,29 @@ public:
     void DFS(int inicio) {
         vector<bool> visitado(numVertices, false);
         auxDFS(inicio, visitado);
+    }
+
+    void BFS(int inicio) {
+        vector<bool> visitado(numVertices, false);
+        vector<int> nivelActual; // Nodo inicial como el nivel actual
+        nivelActual.push_back(inicio);
+        visitado[inicio] = true;
+
+        auxBFS(inicio, visitado, nivelActual);
+    }
+
+    int contarComponentesConexas() {
+        vector<bool> visitado(numVertices, false);
+        int componentes = 0;
+
+        for (int i = 0; i < numVertices; i++) {
+            if (!visitado[i]) {
+                componentes++;
+                auxDFS(i, visitado); // Realiza DFS desde este nodo no visitado
+            }
+        }
+
+        return componentes;
     }
 
     void imprimirGrafo() {
