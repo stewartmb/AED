@@ -80,7 +80,7 @@ public:
         auxDFS(inicio, visitado);
     }
 
-    void BFS(int inicio) {
+   void BFS(int inicio) {
         vector<bool> visitado(numVertices, false);
         vector<int> nivelActual; // Nodo inicial como el nivel actual
         nivelActual.push_back(inicio);
