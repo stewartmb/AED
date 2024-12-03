@@ -103,6 +103,22 @@ public:
         return componentes;
     }
 
+    int contarComponentesConexasBFS() {
+        vector<bool> visitado(numVertices, false);
+        int componentes = 0;
+
+        for (int i = 0; i < numVertices; i++) {
+            if (!visitado[i]) {
+                componentes++;
+                vector<int> nivelActual = {i}; // Inicia desde un nodo no visitado
+                visitado[i] = true;
+                auxBFS(i, visitado, nivelActual); // Llamar al BFS recursivo
+            }
+        }
+
+        return componentes;
+    }
+
     void imprimirGrafo() {
         for (int i = 0; i < numVertices; i++) {
             cout << "Vertice " << i << ":";
